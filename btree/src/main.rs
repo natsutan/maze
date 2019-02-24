@@ -1,6 +1,6 @@
 use std::fmt;
 
-#[derive(Debug, Copy, Clone)]
+#[derive(Debug, Copy, Clone, PartialEq)]
 struct Point {
     pub row: u32,
     pub col: u32
@@ -33,6 +33,17 @@ impl Cell {
         cell.link(self)
     }
 
+    pub fn unlink(&mut self, cell:& Cell) {
+        let pos:Point = cell.pos.clone();
+        self.links.retain(|&x| x != pos)
+    }
+
+    pub fn biunlink(&mut self, cell:&mut Cell) {
+        self.unlink(cell);
+        cell.unlink(self)
+    }
+
+
 
 }
 
@@ -59,5 +70,10 @@ fn main() {
     b.bilink(&mut a);
 
     println!("Hello, world!");
-    println!("a = {}, b = {:?}", a, b);
+    println!("a = {}, b = {}", a, b);
+    a.unlink(&c);
+    println!("a = {} b = {}", a, b);
+    a.biunlink(&mut b);
+    println!("a = {} b = {}", a, b);
+
 }
