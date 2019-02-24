@@ -15,12 +15,16 @@ impl fmt::Display for Point {
 #[derive(Debug)]
 pub struct Cell {
     pub pos: Point,
+    pub north: Option<Point>,
+    pub south: Option<Point>,
+    pub east: Option<Point>,
+    pub west: Option<Point>,
     pub links: Vec<Point>
 }
 
 impl Cell {
     pub fn new(row:u32, col:u32) -> Cell {
-        Cell{pos:Point{row, col}, links:vec![]}
+        Cell{pos:Point{row, col}, north:None, south:None, east:None, west:None, links:vec![]}
     }
 
     pub fn link(&mut self, cell:& Cell) {
@@ -46,10 +50,13 @@ impl Cell {
 
 
 }
-
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, links = ", self.pos);
+
+//        write!(f, "N:{} S:{} E:{} W:{}= ", self.north, self.south, self.east, self.west);
+
+
         for l in &self.links {
             write!(f, " {} ", l);
         }
