@@ -47,19 +47,50 @@ impl Cell {
         cell.unlink(self)
     }
 
+    pub fn neighbors(self) ->Vec<Point>{
+        let mut neighbors:Vec<Point> = vec![];
+        if let Some(v) = self.north {
+            neighbors.push(v);
+        }
+        if let Some(v) = self.south {
+            neighbors.push(v);
+        }
+        if let Some(v) = self.east {
+            neighbors.push(v);
+        }
+        if let Some(v) = self.west {
+            neighbors.push(v);
+        }
 
+        neighbors
+    }
 
 }
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        write!(f, "({}, links = ", self.pos);
-
-//        write!(f, "N:{} S:{} E:{} W:{}= ", self.north, self.south, self.east, self.west);
-
-
-        for l in &self.links {
-            write!(f, " {} ", l);
+        write!(f, "({}, ", self.pos);
+        if let Some(v) = self.north {
+            write!(f, "N:{} ", v);
         }
+        if let Some(v) = self.south {
+            write!(f, "S:{} ", v);
+        }
+        if let Some(v) = self.east {
+            write!(f, "E:{} ", v);
+        }
+        if let Some(v) = self.west {
+            write!(f, "W:{} ", v);
+        }
+
+        if self.links.len() != 0 {
+            write!(f, " links = ", );
+            for l in &self.links {
+                write!(f, "{} ", l);
+            }
+        } else {
+            write!(f, "no link ");
+        }
+
         write!(f, ")")
     }
 }
