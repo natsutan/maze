@@ -18,4 +18,6 @@ fn main() {
     a.biunlink(&mut b);
     println!("a = {} b = {}", a, b);
 
+    let mut g = maze::Grid::new(4,4);
+    println!("g={:?}", g);
 }

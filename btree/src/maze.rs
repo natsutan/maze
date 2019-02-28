@@ -94,3 +94,31 @@ impl fmt::Display for Cell {
         write!(f, ")")
     }
 }
+
+#[derive(Debug)]
+pub struct Grid {
+    pub row:u32,
+    pub col:u32,
+    pub grid:Vec<Vec<Cell>>
+}
+
+impl Grid {
+    pub fn new(row: u32, col: u32) -> Grid {
+        let mut grid = Grid {row:row, col:col, grid: vec![] };
+
+        for r in 0 .. row {
+            let mut rvec:Vec<Cell> = vec![];
+            for c in 0 .. col {
+                let mut cell = Cell::new(r, c);
+                cell.north = Some(Point{row:row - 1, col:col});
+                cell.south = Some(Point{row:row + 1, col:col});
+                cell.west  = Some(Point{row:row, col:col - 1});
+                cell.east  = Some(Point{row:row, col:col + 1});
+
+                rvec.push(cell);
+            }
+            grid.grid.push(rvec);
+        }
+        grid
+    }
+}
