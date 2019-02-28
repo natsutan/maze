@@ -1,9 +1,19 @@
 use std::fmt;
+use std::ops::Index;
+use std::ops::IndexMut;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Point {
     pub row: u32,
     pub col: u32
+}
+
+impl Point {
+    pub fn new(row: i32, col: i32, max_row: u32, max_col: u32) -> Some(Point) {
+        if 
+
+        Point { pos: Point { row, col }, north: None, south: None, east: None, west: None, links: vec![] }
+    }
 }
 
 impl fmt::Display for Point {
@@ -66,6 +76,7 @@ impl Cell {
     }
 
 }
+
 impl fmt::Display for Cell {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "({}, ", self.pos);
@@ -104,21 +115,35 @@ pub struct Grid {
 
 impl Grid {
     pub fn new(row: u32, col: u32) -> Grid {
-        let mut grid = Grid {row:row, col:col, grid: vec![] };
+        let mut grid = Grid { row: row, col: col, grid: vec![] };
 
-        for r in 0 .. row {
-            let mut rvec:Vec<Cell> = vec![];
-            for c in 0 .. col {
+        for r in 0..row {
+            let mut rvec: Vec<Cell> = vec![];
+            for c in 0..col {
                 let mut cell = Cell::new(r, c);
-                cell.north = Some(Point{row:row - 1, col:col});
-                cell.south = Some(Point{row:row + 1, col:col});
-                cell.west  = Some(Point{row:row, col:col - 1});
-                cell.east  = Some(Point{row:row, col:col + 1});
+                cell.north = Some(Point { row: r - 1, col: c });
+                cell.south = Some(Point { row: r + 1, col: c });
+                cell.west = Some(Point { row: r, col: c - 1 });
+                cell.east = Some(Point { row: r, col: c + 1 });
 
+                println!("cell = {}", cell);
                 rvec.push(cell);
             }
             grid.grid.push(rvec);
         }
         grid
+    }
+}
+
+impl Index<usize> for Grid {
+    type Output = Vec<Cell>;
+    fn index(& self, row: usize) -> &Vec<Cell> {
+        & self.grid[row]
+    }
+}
+
+impl IndexMut < usize > for Grid {
+    fn index_mut( & mut self, row: usize) -> & mut Vec<Cell> {
+        & mut self.grid[row]
     }
 }
