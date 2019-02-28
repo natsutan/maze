@@ -9,10 +9,14 @@ pub struct Point {
 }
 
 impl Point {
-    pub fn new(row: i32, col: i32, max_row: u32, max_col: u32) -> Some(Point) {
-        if 
-
-        Point { pos: Point { row, col }, north: None, south: None, east: None, west: None, links: vec![] }
+    pub fn new(row: i32, col: i32, max_row: u32, max_col: u32) -> Option<Point> {
+        let mr = max_row as i32;
+        let mc = max_col as i32;
+        if (row < 0 && mr <= row) || (col < 0 && mc <= col) {
+            None
+        } else {
+            Some(Point { row:row as u32 , col: col as u32})
+        }
     }
 }
 
@@ -121,12 +125,19 @@ impl Grid {
             let mut rvec: Vec<Cell> = vec![];
             for c in 0..col {
                 let mut cell = Cell::new(r, c);
-                cell.north = Some(Point { row: r - 1, col: c });
-                cell.south = Some(Point { row: r + 1, col: c });
-                cell.west = Some(Point { row: r, col: c - 1 });
-                cell.east = Some(Point { row: r, col: c + 1 });
+                if r > 0 {
+                    cell.north = Some(Point { row: r - 1, col: c });
+                }
+                if r < row - 1 {
+                    cell.south = Some(Point { row: r + 1, col: c });
+                }
+                if c > 0 {
+                    cell.west = Some(Point { row: r, col: c - 1 });
+                }
+                if c < col - 1 {
+                    cell.east = Some(Point { row: r, col: c + 1 });
+                }
 
-                println!("cell = {}", cell);
                 rvec.push(cell);
             }
             grid.grid.push(rvec);
