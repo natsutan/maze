@@ -21,6 +21,15 @@ fn main() {
     let mut g = maze::Grid::new(4,4);
     println!("g={:?}", g);
 
+    let r1 = g.random_point();
+    println!("r1 = {}", r1);
+
+    let r2 = g.random_point();
+    println!("r1 = {}", r2);
+
+    let r3 = g.random_point();
+    println!("r1 = {}", r3);
+
 //    let d = &g[2][3];
 //    print!("d = {}", d);
 

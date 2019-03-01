@@ -1,6 +1,7 @@
 use std::fmt;
 use std::ops::Index;
 use std::ops::IndexMut;
+use rand::Rng;
 
 #[derive(Debug, Copy, Clone, PartialEq)]
 pub struct Point {
@@ -144,6 +145,17 @@ impl Grid {
         }
         grid
     }
+    pub fn size(& self) -> u32 {
+        self.col * self.row
+    }
+
+    pub fn random_point(& self) -> Point {
+        let mut rng = rand::thread_rng(); // デフォルトの乱数生成器を初期化します
+        let r: u32 = rng.gen_range(0,self.row) ;
+        let c: u32 = rng.gen_range(0, self.col) ;
+        Point{row:r, col:c}
+    }
+
 }
 
 impl Index<usize> for Grid {

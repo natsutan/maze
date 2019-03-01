@@ -5,3 +5,4 @@ authors = ["natsutan <YRW03704@nifty.com>"]
 edition = "2018"
 
 [dependencies]
+rand = "*"
