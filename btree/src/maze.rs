@@ -115,12 +115,13 @@ impl fmt::Display for Cell {
 pub struct Grid {
     pub row:u32,
     pub col:u32,
-    pub grid:Vec<Vec<Cell>>
+    pub grid:Vec<Vec<Cell>>,
+    iter:Vec<Point>
 }
 
 impl Grid {
     pub fn new(row: u32, col: u32) -> Grid {
-        let mut grid = Grid { row: row, col: col, grid: vec![] };
+        let mut grid = Grid { row: row, col: col, grid: vec![], iter: vec![] };
 
         for r in 0..row {
             let mut rvec: Vec<Cell> = vec![];
@@ -140,6 +141,7 @@ impl Grid {
                 }
 
                 rvec.push(cell);
+                grid.iter.push(Point{row:r, col:c});
             }
             grid.grid.push(rvec);
         }
@@ -156,6 +158,26 @@ impl Grid {
         Point{row:r, col:c}
     }
 
+    pub fn cell(& self, pos: Point) -> Option<Cell> {
+        let r : usize = pos.row as usize;
+        let c : usize = pos.col as usize;
+        Some(&self.grid[r][c])
+    }
+
+}
+
+
+impl Iterator for Grid {
+    type Item = Cell;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        match self.iter.pop() {
+            None => None,
+            Some(p) => {
+                self.cell(p)
+            }
+        }
+    }
 }
 
 impl Index<usize> for Grid {

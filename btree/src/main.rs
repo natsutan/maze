@@ -30,6 +30,10 @@ fn main() {
     let r3 = g.random_point();
     println!("r1 = {}", r3);
 
+    for c in g {
+        println!("* {}", c);
+    }
+
 //    let d = &g[2][3];
 //    print!("d = {}", d);
 
